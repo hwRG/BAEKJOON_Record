@@ -1,15 +1,16 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
+
+
+bool ascend()
+bool descend()
+
 int main() {
-	int N;
-	int* start = new int[N];
-	int* end = new int[N];
-	cin >> N;
-
-	for (int i = 0; i < N; i++) {
-		cin >> start[i] >> end[i];
-
+	int N[10] = { 4, 5, 2, 3, 7, 9, 1, 6, 0, 8};
+	sort(N, N + 10, compare);
+	for (int i = 0; i < 10; i++) {
+		cout << N[i] << ' ';
 	}
-
 }

@@ -2,15 +2,39 @@
 #include <algorithm>
 using namespace std;
 
+typedef struct meeting {
+	int start, end;
+}meeting;
 
-
-bool ascend()
-bool descend()
+bool startSort(meeting* a, meeting* b) {
+	return a->start < b->start;
+}
+bool endSort(meeting* a, meeting* b) {
+	return a->end < b->end;
+}
 
 int main() {
-	int N[10] = { 4, 5, 2, 3, 7, 9, 1, 6, 0, 8};
-	sort(N, N + 10, compare);
-	for (int i = 0; i < 10; i++) {
-		cout << N[i] << ' ';
+	meeting* meet[100000];
+	int total, count = 0;
+	cin >> total;
+	for (int i = 0; i < total; i++) {
+		int start, end;
+		cin >> start >> end;
+		meet[i] = (meeting*)malloc(sizeof(meeting));
+		meet[i]->start = start;
+		meet[i]->end = end;
 	}
+	sort(meet, meet + total, endSort);
+	int now = 0;
+	for (int i = 0; i < total; i++) {
+		if (now <= meet[i]->start) {
+			int j = i + 1;
+			if (j < total && meet[i]->end == meet[j]->end)
+				j++;
+			sort(meet + i, meet + j, startSort);
+			now = meet[i]->end;
+			count++;
+		}
+	}
+	cout << count;
 }

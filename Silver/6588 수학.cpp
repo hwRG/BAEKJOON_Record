@@ -1,42 +1,56 @@
 #include <iostream>
 using namespace std;
 
-int test[100000];
+int prime[1000001], total[1000001], before, primeCount;
 
-int main() {
-	int num, max = 0, count = 0, testCase = 0;
-	bool right = true;
-	for (int i = 0; i < 100000; i++) {
-		cin >> num;
-		if (num == 0)
-			break;
-		test[i] = num;
-		if (max < num) max = num;
-		testCase++;
-	}
-	int* total = new int[max+1];
-	int* prime = new int[max+1];
-
-	for (int i = 1; i <= max; i++) {
+void primeCalc() {
+	for (int i = 2; i <= 1000000; i++)
 		total[i] = i;
-
-	for (int i = 2; i <= max; i++) {
+	for (int i = 2; i <= 1000000; i++) { 
 		if (total[i] == 0)
 			continue;
-		prime[count] = total[i];
-		count++;
-		for (int j = i; j <= max; j+=i)
+		prime[primeCount] = total[i];
+		primeCount++;
+		for (int j = i; j <= 1000000; j += i)
 			total[j] = 0;
 	}
-	int first = 0, end = count;
-	for (int i = 0; i < testCase; i++) {
+}
+
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	primeCalc();
+
+	for (int t = 0; t < 1000000; t++) {
+		int num, count = 0;
+		cin >> num;
+		if (num == 0) break;
+
+		int min = 0, current = primeCount/2, max = primeCount;
 		while (1) {
-			if (prime[first] + prime[end] == test[i]) {
-				cout << test[i] << " = " << prime[first] << " + " << prime[end];
-				break;
+			if (prime[current] < num){
+				current = (max + current) / 2;
+				min = current;
 			}
-			else if (prime[first] + prime[end] == test[i]) {
-			
+			else if (prime[current] > num){
+				current = (min + max) / 2;
+				max = current;
+			}
+		}
+
+		bool right = false;
+		for (int i = current - 1; i >= 0; i--) {
+			if (right == true)
+				break;
+			for (int j = 0; j < i; j++) {
+				if (prime[i] + prime[j] == num) {
+					cout << num << " = " << prime[i] << " + " << prime[j] << '\n';
+					right = true;
+					break;
+				}
+				else if (prime[i] + prime[j] > num)
+					break;
 			}
 		}
 	}

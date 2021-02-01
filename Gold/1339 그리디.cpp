@@ -1,40 +1,45 @@
 #include <iostream>
-#include <cmath>
+#include <algorithm>
 #include <string>
 using namespace std;
 
-int alphabet[26][2];
+struct alphabet {
+	char alphabet;
+	long long index = 0;
+};
+
+bool cmp(alphabet a, alphabet b) {
+	return a.index > b.index;
+}
 
 int main() {
-	string str[10];
-	for (int i = 0; i < 26; i++) 
-		alphabet[i][0] = i + 65;
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+	string str;
+	alphabet alp[26];
+	for (int i = 0; i < 26; i++)
+		alp[i].alphabet = char(i + 65);
 
-	int N, max = 0, num = 9, total = 0;
+	long long N, total = 0, descend = 9;
 	cin >> N;
-	int count = N;
 	for (int i = 0; i < N; i++) {
-		cin >> str[i];
-		if (str[i].length() > max) max = str[i].length();
-	}
-	int current = max;
-	for(int a = 0; a < max; a++){
-		for (int i = 0; i < N; i++) { 
-			if (str[i].length() == current) { 
-				for (int j = 0; j < 26; j++) { 
-					if (str[i][0] == alphabet[j][0]) {
-						if (alphabet[j][1] == 0){
-							alphabet[j][1] = num;
-							num--;
-						}
-						total += alphabet[j][1] * pow(10, current - 1);
-						str[i].erase(0, 1);
-						break;
-					}
+		int count = 1;
+		cin >> str;
+		for (int j = str.length() - 1; j >= 0; j--) {
+			for (int k = 0; k < 26; k++) {
+				if (alp[k].alphabet == str[j]) {
+					alp[k].index += count;
+					count *= 10;
+					break;
 				}
 			}
 		}
-		current--;
+	}
+	sort(alp, alp + 26, cmp);
+	for (int i = 0; i < 26; i++) {
+		if (alp[i].index == 0) break;
+		alp[i].index *= descend;
+		total += alp[i].index;
+		descend--;
 	}
 	cout << total;
 }

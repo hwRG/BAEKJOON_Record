@@ -10,16 +10,14 @@ bool primeCalc(int n) {
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int T;
+	int T, num, first, second;
 	cin >> T;
 	for(int i = 0; i < T; i++){
-		int num, first, second;
-		bool flag = false;
 		cin >> num;
 		if (num == 0) break;
-		for (int i = 1; i < num / 2; i++) {
-			first = i * 2 + 1;
-			second = num - first;
+		for (int i = num / 2; i >= 1; i--) {
+			first = i;
+			second = num - i;
 			if (primeCalc(first) && primeCalc(second)) {
 				cout << first << ' ' << second << '\n';
 				break;

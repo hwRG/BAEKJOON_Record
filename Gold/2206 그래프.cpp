@@ -13,24 +13,27 @@ void BFS() {
     que.push({{ 1, 1 }, 1});
     int TX, TY, broke;
     while (!que.empty()) {
-        pair<pair<int, int>, int> current = que.front();
+        pair<pair<int, int>, int> cur = que.front();
         que.pop();
+        if (cur.first.first == N && cur.first.second == M) break;
         for (int i = 0; i < 4; i++) {
-            TX = current.first.first + direction[i][0];
-            TY = current.first.second + direction[i][1];
-            broke = current.second;
+            TX = cur.first.first + direction[i][0];
+            TY = cur.first.second + direction[i][1];
+            broke = cur.second;
+
             if(TX >= 1 && TX <= N && TY >= 1 && TY <= M){
                 if (!map[TX][TY] && !visited[TX][TY][broke]) {
                     que.push({ { TX, TY }, broke });
-                    visited[TX][TY][broke] = visited[current.first.first][current.first.second][broke] + 1;
+                    visited[TX][TY][broke] = visited[cur.first.first][cur.first.second][broke] + 1;
                 }
                 else if (map[TX][TY] && broke) {
                     que.push({ { TX, TY }, broke - 1 });
-                    visited[TX][TY][broke - 1] = visited[current.first.first][current.first.second][broke] + 1;
+                    visited[TX][TY][broke - 1] = visited[cur.first.first][cur.first.second][broke] + 1;
                 }
             }
         }
     }
+    if (visited[N][M][1]) visited[N][M][0] = visited[N][M][1];
 }
 
 int main() {

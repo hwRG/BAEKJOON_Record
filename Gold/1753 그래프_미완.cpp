@@ -15,8 +15,8 @@ void link() {
 	Linkedlist* location;
 
 	location = new Linkedlist;
-	location->value = v;
-	location->line = w;
+	location->value = w;
+	location->line = v;
 	location->next = edge[u];
 	edge[u] = location;
 }

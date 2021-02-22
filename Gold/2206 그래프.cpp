@@ -49,3 +49,32 @@ int main() {
     if (visited[N][M][0] == 0) cout << -1;
     else cout << visited[N][M][0];
 }
+
+/*
+배열로
+int getSmall() {
+    int min = INF;
+    int result = 0;
+    for (int i = 1; i <= V; i++) {
+        if (d[i] < min && !visited[i]) {
+            min = d[i];
+            result = i;
+        }
+    }
+    return result;
+}
+
+void dijkstra(int start) { // 1에 대해서
+    for (int i = 1; i <= V; i++)
+        d[i] = map[start][i];
+    visited[start] = 1;
+    for (int i = 1; i <= V - 2; i++) {
+        int current = getSmall();
+        visited[current] = 1;
+        for (int j = 1; j <= V; j++)
+            if (!visited[j])
+                if (d[current] + map[current][j] < d[j])
+                    d[j] = d[current] + map[current][j];
+    }
+}
+*/
